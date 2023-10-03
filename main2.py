@@ -15,14 +15,20 @@ def text_to_audio(bark_model='suno/bark',voice_preset='v2/it_speaker_2'):
     processor = AutoProcessor.from_pretrained(bark_model)
 
     text = open("la-donna-scomparsa.txt", "r")
-    inputs = processor(text,voice_preset=voice_preset).to(device)
-    audio_array= model.generate(**inputs)
+    lines = text.readlines()
+    count = 0
+    for l in lines:
+        print(l.strip())
+        inputs = processor(l, voice_preset=voice_preset).to(device)
+        audio_array = model.generate(**inputs)
+        audio_array = audio_array.cpu().numpy().squeeze()
+        sample_rate = model.generation_config.sample_rate
+        scipy.io.wavfile.write(f'{count}.mp3', rate=sample_rate, data=audio_array)
+        count +=count
 
-    audio_array= audio_array.cpu().numpy().squeeze()
 
-    sample_rate = model.generation_config.sample_rate
 
-    scipy.io.wavfile.write('1.wav', rate = sample_rate, data = audio_array)
+
 
 def main():
     text_to_audio()
