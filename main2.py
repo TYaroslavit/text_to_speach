@@ -25,7 +25,7 @@ def text_to_audio(bark_model='suno/bark',voice_preset='v2/it_speaker_2'):
         audio_array = audio_array.cpu().numpy().squeeze()
         sample_rate = model.generation_config.sample_rate
         scipy.io.wavfile.write(f'{count}.wav', rate=sample_rate, data=audio_array)
-        count +=count
+        count = count +1
 
 
 
