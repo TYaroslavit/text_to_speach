@@ -9,11 +9,10 @@ from bark.api import semantic_to_waveform
 from bark import generate_audio, SAMPLE_RATE
 
 
-def text_to_audio(voice_preset='v2/ru_speaker_3'):
+def text_to_audio(voice_preset='v2/it_speaker_7'):
 
-    text = """
-    Your text here
-    """.replace("\n", " ").strip()
+    text = open("testo.txt", "r")
+    text = text.replace("\n", " ").strip()
 
     sentences = nltk.sent_tokenize(text)
     silence = np.zeros(int(0.25 * SAMPLE_RATE))
