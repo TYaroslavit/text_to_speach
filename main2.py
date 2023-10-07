@@ -14,7 +14,7 @@ def text_to_audio(bark_model='suno/bark',voice_preset='v2/it_speaker_2'):
     model = model.to(device)
     processor = AutoProcessor.from_pretrained(bark_model)
 
-    text = open("la-donna-scomparsa.txt", "r")
+    text = open("testo.txt", "r")
     lines = text.readlines()
     count = 0
     for l in lines:
