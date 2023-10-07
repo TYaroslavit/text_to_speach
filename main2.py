@@ -19,11 +19,12 @@ def text_to_audio(bark_model='suno/bark',voice_preset='v2/it_speaker_2'):
     count = 0
     for l in lines:
         print(l.strip())
+        print("sono alla riga ",count)
         inputs = processor(l, voice_preset=voice_preset).to(device)
         audio_array = model.generate(**inputs)
         audio_array = audio_array.cpu().numpy().squeeze()
         sample_rate = model.generation_config.sample_rate
-        scipy.io.wavfile.write(f'{count}.mp3', rate=sample_rate, data=audio_array)
+        scipy.io.wavfile.write(f'{count}.wav', rate=sample_rate, data=audio_array)
         count +=count
 
 
