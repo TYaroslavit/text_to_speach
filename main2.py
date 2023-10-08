@@ -6,7 +6,7 @@ import scipy
 from transformers import BarkModel, AutoProcessor
 import torch
 import scipy
-
+torch.cuda.empty_cache()
 
 def text_to_audio(bark_model='suno/bark',voice_preset='v2/it_speaker_2'):
     model = BarkModel.from_pretrained(bark_model)
@@ -14,18 +14,22 @@ def text_to_audio(bark_model='suno/bark',voice_preset='v2/it_speaker_2'):
     model = model.to(device)
     processor = AutoProcessor.from_pretrained(bark_model)
 
-    text = open("testo.txt", "r")
+
+    text = open("testo.txt", "r", encoding="utf8")
     lines = text.readlines()
     count = 0
     for l in lines:
-        print(l.strip())
-        print("sono alla riga ",count)
-        inputs = processor(l, voice_preset=voice_preset).to(device)
-        audio_array = model.generate(**inputs)
-        audio_array = audio_array.cpu().numpy().squeeze()
-        sample_rate = model.generation_config.sample_rate
-        scipy.io.wavfile.write(f'{count}.wav', rate=sample_rate, data=audio_array)
-        count = count +1
+        newText = l.replace("\s", "").strip()
+        if (newText.__len__() > 0):
+            print(l.strip())
+            print("sono alla riga ",count)
+            inputs = processor(l, voice_preset=voice_preset).to(device)
+            audio_array = model.generate(**inputs)
+            audio_array = audio_array.cpu().numpy().squeeze()
+            sample_rate = model.generation_config.sample_rate
+            scipy.io.wavfile.write(f'{count}.wav', rate=sample_rate, data=audio_array)
+            count = count +1
+        
 
 
 
