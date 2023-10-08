@@ -1,5 +1,5 @@
 import nltk
-
+import os
 import numpy as np
 import scipy
 from bark.generation import (
@@ -8,7 +8,7 @@ from bark.generation import (
 )
 from bark.api import semantic_to_waveform
 from bark import generate_audio, SAMPLE_RATE
-
+os.environ["SUNO_USE_SMALL_MODELS"] = True
 
 def text_to_audio(voice_preset='v2/it_speaker_3'):
 
